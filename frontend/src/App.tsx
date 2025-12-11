@@ -79,7 +79,7 @@ function App() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Agents</h1>
+      <h1 className="text-4xl font-bold mb-8">Elevenlabs Super Agents</h1>
 
       {loading && <div className="text-lg">Loading agents...</div>}
       {error && !loading && <div className="text-red-600 text-lg">{error}</div>}
