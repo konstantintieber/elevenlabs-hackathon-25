@@ -36,12 +36,25 @@ app.get('/agent/:agentId', async (req: Request, res: Response) => {
 interface AgentRequest {
   name: string;
   prompt: string;
+  files: string[];
 }
 
 app.post('/agent', async (req: Request<{}, {}, AgentRequest>, res: Response) => {
-  return res.status(500).json({
-    error: 'Not implemented yet',
+  const { name, prompt } = req.body;
+  if (!name || !prompt) {
+    return res.status(400);
+  }
+  const agent = await elevenlabs.conversationalAi.agents.create({
+    name,
+    conversationConfig: {
+      agent: {
+        prompt: {
+          prompt
+        }
+      }
+    }
   });
+  return res.status(201).json(agent);
 });
 
 type EditAgentParams = { agentId: string };
