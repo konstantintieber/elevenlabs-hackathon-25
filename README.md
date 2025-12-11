@@ -45,7 +45,7 @@ ELEVENLABS_API_KEY=<your-token>
 ## Project Structure
 
 ```
-├── frontend/          # express backend
+├── backend/           # express backend
 ├── frontend/          # react frontend
 └── README.md
 ```
