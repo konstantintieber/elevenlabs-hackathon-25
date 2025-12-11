@@ -16,6 +16,7 @@ type AgentItem = {
 };
 
 function App() {
+  // onst [agents, setAgents] = useState<AgentItem[]>([{ id: '123', name: 'John'}]);
   const [agents, setAgents] = useState<AgentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
