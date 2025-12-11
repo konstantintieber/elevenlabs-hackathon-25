@@ -33,17 +33,11 @@ app.get('/agents', async (_req: Request, res: Response) => {
 });
 
 app.get('/agent/:agentId', async (req: Request, res: Response) => {
-    const agentId = req.params.agentId as any
-    console.log("AGENTID", agentId)
-
-    console.log(agentId)
-    return res.send(await prisma.agent.findUnique({
-        where:{id: Number(agentId)}
-    }))
+    // const agentId = req.params.agentId as any
+    return res.status(500).json({
+      error: 'Not implemented yet',
+    });
 });
-
-
-
 
 interface AgentRequest {
   name: string;
@@ -51,43 +45,9 @@ interface AgentRequest {
 }
 
 app.post('/agent', async (req: Request<{}, {}, AgentRequest>, res: Response) => {
-  const { name } = req.body;
-
-  // Validate required fields
-  if (!name) {
-    return res.status(400).json({
-      error: 'Missing required fields',
-      details: {
-        name: !name ? 'Name is required' : undefined,
-      },
-    });
-  }
-
-  try {
-    // Insert agent into database using Prisma
-    const agent = await prisma.agent.create({
-      data: {
-        name,
-        prompt: 'Hello world'
-      },
-    });
-
-    console.log('Agent saved to database:', agent);
-
-    return res.status(201).json({
-      message: 'Agent created successfully',
-      data: {
-        id: agent.id,
-        name: agent.name,
-      },
-    });
-  } catch (error) {
-    console.error('Error saving agent to database:', error);
-    return res.status(500).json({
-      error: 'Failed to save agent',
-      message: error instanceof Error ? error.message : 'Unknown error',
-    });
-  }
+  return res.status(500).json({
+    error: 'Not implemented yet',
+  });
 });
 
 type EditAgentParams = { agentId: string };
@@ -99,60 +59,12 @@ app.put(
     req: Request<EditAgentParams, {}, EditAgentBody>,
     res: Response,
   ) => {
-    const { agentId } = req.params;
-    const { prompt } = req.body ?? {};
+    //const { agentId } = req.params;
+    //const { prompt } = req.body ?? {};
 
-    // Validate agentId
-    const id = Number(agentId);
-    if (!Number.isInteger(id)) {
-      return res.status(400).json({
-        error: 'Invalid agentId',
-        message: 'agentId must be an integer',
-      });
-    }
-
-    // Validate prompt
-    if (typeof prompt !== 'string' || prompt.trim().length === 0) {
-      return res.status(400).json({
-        error: 'Invalid payload',
-        message: 'prompt is required and must be a non-empty string',
-      });
-    }
-
-    try {
-      const agent = await prisma.agent.update({
-        where: { id },
-        data: { prompt: prompt },
-      });
-
-      if (!agent.prompt) {
-        return res.status(500).json({
-          error: 'Failed to store prompt on agent',
-        });
-      }
-      return res.status(200).json({
-        message: 'Agent created',
-        data: {
-          agent_id: id,
-          name,
-        },
-      });
-
-    } catch (error: unknown) {
-      // Prisma P2025: Record to update not found
-      if (typeof error === 'object' && error !== null && (error as any).code === 'P2025') {
-        return res.status(404).json({
-          error: 'Agent not found',
-          message: `Agent with id ${id} does not exist`,
-        });
-      }
-
-      console.error('Error approving agent:', error);
-      return res.status(500).json({
-        error: 'Failed to approve agent',
-        message: error instanceof Error ? error.message : 'Unknown error',
-      });
-    }
+    return res.status(500).json({
+      error: 'Not implemented yet',
+    });
   },
 );
 
