@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: hackathon-backend
+    env: node
+    # Install pnpm first, then use it for all commands
+    buildCommand: pnpm install --frozen-lockfile && pnpm run build:prod
+    startCommand: pnpm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: PORT
+        value: 3000

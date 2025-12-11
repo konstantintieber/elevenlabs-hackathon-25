@@ -1,0 +1,26 @@
+{
+  "name": "elevenlabs-hackathon",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo containing frontend and backend packages",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "dev:backend": "pnpm -C backend dev",
+    "dev:frontend": "pnpm -C frontend dev",
+    "build": "pnpm -r build",
+    "build:backend": "pnpm -C backend build",
+    "build:backend:prod": "pnpm --filter backend run build:prod",
+    "start": "pnpm -C backend start",
+    "start:backend": "pnpm -C backend start"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "typescript": "^5.9.3"
+  }
+}
