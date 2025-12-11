@@ -1,0 +1,18 @@
+// Development schema - uses SQLite
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Agent {
+  id               Int      @id @default(autoincrement())
+  name             String
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@map("agents")
+}

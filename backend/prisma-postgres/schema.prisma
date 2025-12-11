@@ -1,0 +1,21 @@
+// Production schema - uses PostgreSQL
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // Optional: set this when your Postgres provider doesn’t allow creating a shadow DB automatically (Neon, Supabase, etc.)
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Agent {
+  id               Int      @id @default(autoincrement())
+  name             String
+  prompt           String
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@map("agents")
+}
