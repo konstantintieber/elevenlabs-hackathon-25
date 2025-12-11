@@ -44,6 +44,7 @@ app.get('/agent/:agentId', async (req: Request, res: Response) => {
 
 interface AgentRequest {
   name: string;
+  prompt: string;
 }
 
 app.post('/agent', async (req: Request<{}, {}, AgentRequest>, res: Response) => {
@@ -63,7 +64,8 @@ app.post('/agent', async (req: Request<{}, {}, AgentRequest>, res: Response) => 
     // Insert agent into database using Prisma
     const agent = await prisma.agent.create({
       data: {
-        name
+        name,
+        prompt: 'Hello world'
       },
     });
 
