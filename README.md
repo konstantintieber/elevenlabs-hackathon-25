@@ -6,6 +6,8 @@ AI-powered meeting agents that ingest custom knowledge base data and join your o
 
 This project was built in three hours by a team of three in Berlin as part of the [ElevenLabs Global Hackathon](https://berlin.aitinkerers.org/p/elevenlabs-global-hackathon-berlin).
 
+![Project Presentation at the Hackathon in Berlin](11labs-hackathon-demo.jpg)
+
 ## Overview
 
 This project enables you to create intelligent agents that can:
