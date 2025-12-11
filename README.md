@@ -14,7 +14,7 @@ This project enables you to create intelligent agents that can:
 ## Tech Stack
 
 - **ElevenLabs** - Voice synthesis and conversational AI
-- **N8N** - Workflow automation and agent orchestration
+- **n8n** - Workflow automation and agent orchestration
 - **AttendeeDev** - Meeting integration and real-time participation
 
 ## Getting Started
@@ -23,13 +23,29 @@ This project enables you to create intelligent agents that can:
 
 ```bash
 cd frontend
-npm install
-npm run dev
+pnpm install
+pnpm run dev
+```
+
+### Backend
+
+```bash
+cd backend
+pnpm install
+pnpm run dev
+```
+
+The following environment variables need to be set inside `/backend/.env` and on your server:
+```
+ATTENDEE_API_TOKEN=<your-token>
+N8N_WEBHOOK_URL=<n8n-webhook-url>
+ELEVENLABS_API_KEY=<your-token>
 ```
 
 ## Project Structure
 
 ```
-├── frontend/          # Next.js web application
+├── frontend/          # express backend
+├── frontend/          # react frontend
 └── README.md
 ```
