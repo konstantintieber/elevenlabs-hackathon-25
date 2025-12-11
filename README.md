@@ -1,5 +1,7 @@
 # ElevenLabs Hackathon 2025
 
+[View Project Walkthrough PDF](elevenlabs-agent-walkthrough.pdf)
+
 AI-powered meeting agents that ingest custom knowledge base data and join your online meetings to answer questions in real-time.
 
 ## Overview
