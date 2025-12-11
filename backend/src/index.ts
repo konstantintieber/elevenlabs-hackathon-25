@@ -1,7 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { prisma, testConnection, closePrisma } from './config/database';
+import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 
 const app = express();
+const elevenlabs = new ElevenLabsClient();
 
 app.use(express.json());
 
@@ -25,7 +27,8 @@ testConnection().catch((err) => {
 // Public mock data endpoint
 app.get('/agents', async (_req: Request, res: Response) => {
 
-    return res.send(await prisma.agent.findMany())
+    const agents = await elevenlabs.conversationalAi.agents.list();
+    return res.send(agents)
     // return res.json(mockData);
 });
 

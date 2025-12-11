@@ -30,6 +30,7 @@
     "node": ">=18"
   },
   "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.27.0",
     "@prisma/client": "^6.17.1",
     "dotenv": "^17.2.3",
     "express": "^4.19.2",
