@@ -4,6 +4,8 @@
 
 AI-powered meeting agents that ingest custom knowledge base data and join your online meetings to answer questions in real-time.
 
+This project was built in three hours by a team of three in Berlin as part of the [ElevenLabs Global Hackathon](https://berlin.aitinkerers.org/p/elevenlabs-global-hackathon-berlin).
+
 ## Overview
 
 This project enables you to create intelligent agents that can:
