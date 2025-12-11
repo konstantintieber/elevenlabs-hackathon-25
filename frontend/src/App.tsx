@@ -16,38 +16,39 @@ type AgentItem = {
 };
 
 function App() {
-  // onst [agents, setAgents] = useState<AgentItem[]>([{ id: '123', name: 'John'}]);
-  const [agents, setAgents] = useState<AgentItem[]>([]);
+  const [agents, setAgents] = useState<AgentItem[]>([{ id: '123', name: 'John'}]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const [meetingUrl, setMeetingUrl] = useState("");
   const [inviteLoading, setInviteLoading] = useState(false);
 
-  const API_BASE =
-    import.meta.env?.VITE_API_BASE ||
-    "https://elevenlabs-hackathon-25.onrender.com";
+  const API_BASE = "https://elevenlabs-hackathon-25.onrender.com";
 
   useEffect(() => {
-    const controller = new AbortController();
-    fetch(`${API_BASE}/agents`, { signal: controller.signal })
-      .then((res) => {
-        if (!res.ok)
-          throw new Error(`Failed to load agent data: ${res.status}`);
-        return res.json();
-      })
-      .then((json: AgentItem[]) => {
-        console.log(json);
-        setAgents(json);
-      })
-      .catch((err) => {
-        if (err.name === "AbortError") return;
-        console.error(err);
-        setError(err.message || "Failed to load data");
-      })
-      .finally(() => setLoading(false));
-    return () => controller.abort();
-  }, [API_BASE]);
+    const fetchAgents = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await fetch(`${API_BASE}/agents`);
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch agents: ${res.status}`);
+        }
+
+        const data = await res.json();
+        setAgents(data.agents);
+      } catch (e) {
+        const error = e as Error;
+        setError(error?.message || "Failed to load agents");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAgents();
+  }, []);
+
 
   const handleInvite = async (agent: AgentItem) => {
     if (!meetingUrl.trim()) return;
@@ -94,7 +95,6 @@ function App() {
               <CardContent className="flex items-center justify-between p-6">
                 <div className="flex flex-col">
                   <h2 className="text-xl font-semibold">{agent.name}</h2>
-                  <p className="text-sm text-gray-500">ID: {agent.id}</p>
                 </div>
 
                 <Popover
