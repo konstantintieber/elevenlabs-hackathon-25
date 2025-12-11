@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { prisma, testConnection, closePrisma } from './config/database';
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 
 const app = express();
@@ -16,12 +15,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     return res.sendStatus(204);
   }
   next();
-});
-
-// Test database connection on startup
-testConnection().catch((err) => {
-  console.error('Failed to connect to database:', err);
-  process.exit(1);
 });
 
 // Public mock data endpoint
@@ -81,9 +74,8 @@ const server = app.listen(PORT, () => {
 const gracefulShutdown = async () => {
   console.log('\nShutting down gracefully...');
 
-  server.close(async () => {
+  server.close(() => {
     console.log('HTTP server closed');
-    await closePrisma();
     process.exit(0);
   });
 
