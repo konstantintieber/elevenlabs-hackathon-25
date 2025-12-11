@@ -58,7 +58,7 @@ function App() {
       const res = await fetch(`${API_BASE}/agent/${agent.id}/invite`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ meetingUrl }),
+        body: JSON.stringify({ meetingUrl, agentName: agent.name }),
       });
 
       if (!res.ok) {

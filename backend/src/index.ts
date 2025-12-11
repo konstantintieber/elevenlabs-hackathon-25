@@ -57,6 +57,71 @@ app.post('/agent', async (req: Request<{}, {}, AgentRequest>, res: Response) => 
   return res.status(201).json(agent);
 });
 
+interface InviteAgentToMeetingRequest {
+  meetingUrl: string;
+  agentName: string;
+}
+
+app.post('/agent/:agentId/invite', async (req: Request<{ agentId: string }, {}, InviteAgentToMeetingRequest>, res: Response) => {
+  const { meetingUrl, agentName } = req.body;
+
+  if (!meetingUrl) {
+    return res.status(400).json({ error: 'meetingUrl is required' });
+  }
+
+  const attendeeApiToken = process.env.ATTENDEE_API_TOKEN;
+  const webhookUrl = process.env.N8N_WEBHOOK_URL;
+
+  if (!attendeeApiToken) {
+    return res.status(500).json({ error: 'ATTENDEE_API_TOKEN not configured' });
+  }
+
+  try {
+    const response = await fetch('https://app.attendee.dev/api/v1/bots', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Token ${attendeeApiToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        meeting_url: meetingUrl,
+        bot_name: agentName,
+        transcription_settings: {
+          elevenlabs: {
+            model_id: 'scribe_v1',
+            language_code: 'eng',
+          },
+        },
+        ...(webhookUrl && {
+          webhooks: [
+            {
+              triggers: ['transcript.update', 'bot.state_change'],
+              url: webhookUrl,
+            },
+          ],
+        }),
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      return res.status(response.status).json({
+        error: 'Failed to invite agent to meeting',
+        details: errorText,
+      });
+    }
+
+    const data = await response.json();
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error('Error inviting agent to meeting:', error);
+    return res.status(500).json({
+      error: 'Failed to invite agent to meeting',
+      details: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
 type EditAgentParams = { agentId: string };
 type EditAgentBody = { prompt: string };
 
